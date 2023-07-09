@@ -13,5 +13,5 @@ if(mysqli_num_rows($result) > 0){
 }
 $delete_query = "delete from employees where employee_code = '{$id}'";
 if(mysqli_query($conn,$delete_query)){
-    header("Location:main.php");
+    header("Location:index.php");
 }

@@ -10,6 +10,6 @@ if (isset($_POST['update'])) {
     $result = mysqli_query($conn,$query);
     if($result){
         echo "<script>alert('Data Updated')</script>";
-        header("Location:main.php");
+        header("Location:index.php");
     }
 }
