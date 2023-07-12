@@ -1,5 +1,7 @@
 <?php
 include_once('config.php');
+
+//Function to validate input data
 function validateInputData($data)
 {
     $data = trim($data);
@@ -8,16 +10,19 @@ function validateInputData($data)
     return $data;
 }
 
+
 $nameErr = $phoneErr = $emailErr = '';
 $employee_name = $employee_phone = $employee_email = "";
 
+
+//check if the method is post
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($_POST["name"])) {
         $nameErr = "Name is required";
     } else {
         $employee_name = validateInputData($_POST["name"]);
-        // check if name only contains letters and whitespace
+        // 
         if (!preg_match("/^[a-zA-Z-' ]*$/", $employee_name)) {
             $nameErr = "Only letters and white space allowed";
         }
@@ -60,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 </head>
 
@@ -97,8 +101,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <h1 class="text-center mb-3 mt-5">Employees List</h1>
         <?php
+        //Select all records from employee table
         $sql1 = "select * from employees";
         $result = mysqli_query($conn, $sql1);
+
+        //check if we get atleast one record or more
         if (mysqli_num_rows($result) > 0) {
         ?>
             <table class="table table-striped">
@@ -112,6 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- loop through all the records -->
                     <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                         <tr>
                             <td><?php echo $row['employee_code'] ?></td>
@@ -201,6 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
+            //open modal when clicked on edit button
             $('.editbtn').on("click", function() {
                 $("#editmodal").modal("show");
 
@@ -209,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     return $(this).text();
                 }).get();
 
-                console.log(data);
+                //fill all the input fields with data 
                 $('#update_id').val(data[0]);
                 $('#update_name').val(data[1]);
                 $('#update_phone').val(data[2]);
